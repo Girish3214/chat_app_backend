@@ -65,9 +65,7 @@ const loginUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const users = await User.find({ _id: { $ne: req.params.id } }).select(
-    "-password"
-  );
+  const users = await User.find().select("-password");
   return res.status(200).json(users);
 };
 

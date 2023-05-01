@@ -14,7 +14,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 router.post("/setAvatar/:id", setAvatar);
-router.get("/all/:id", getAllUsers);
+router.get("/", getAllUsers);
 router.get("/:id", getSingleUser);
 
 export default router;

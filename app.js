@@ -9,6 +9,7 @@ import connectDB from "./db/connect.js";
 // routers
 import userRouter from "./routes/userRoutes.js";
 import chatRouter from "./routes/chatRoutes.js";
+import messageRouter from "./routes/messageRoutes.js";
 
 // error handler
 import notFound from "./middleware/not-found.js";
@@ -24,6 +25,7 @@ const baseURL = process.env.BASEURL;
 
 app.use(`${baseURL}/users`, userRouter);
 app.use(`${baseURL}/chats`, chatRouter);
+app.use(`${baseURL}/messages`, messageRouter);
 
 app.use(notFound);
 app.use(errorHandler);

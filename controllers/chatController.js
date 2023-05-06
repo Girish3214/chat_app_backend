@@ -46,4 +46,16 @@ const findChat = async (req, res) => {
     res.status(500).json(error);
   }
 };
-export { createChat, findUserChats, findChat };
+
+const deleteChat = async (req, res) => {
+  const { chatId } = req.params;
+
+  try {
+    const deletedChat = await Chat.deleteOne({ _id: chatId });
+    res.status(200).json(deletedChat);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+export { createChat, findUserChats, findChat, deleteChat };

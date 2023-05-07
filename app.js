@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import "express-async-errors";
 import cookieParser from "cookie-parser";
+import { Server } from "socket.io";
 // DB
 import connectDB from "./db/connect.js";
 
@@ -15,6 +16,7 @@ import notificationRouter from "./routes/notificationRoutes.js";
 // error handler
 import notFound from "./middleware/not-found.js";
 import errorHandler from "./middleware/error-handler.js";
+import startSocket from "./socket/index.js";
 
 const app = express();
 dotenv.config();
@@ -36,9 +38,14 @@ const start = async () => {
   try {
     const port = process.env.PORT || 8000;
     await connectDB();
-    app.listen(port, () =>
+    const server = app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
+    const io = new Server(server, {
+      pingTimeOut: 60000,
+      cors: { origin: "http://localhost:5173" },
+    });
+    startSocket(io);
   } catch (error) {
     console.log(error);
   }

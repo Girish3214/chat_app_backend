@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import "express-async-errors";
 import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
+import path from "path";
 // DB
 import connectDB from "./db/connect.js";
 
@@ -30,6 +31,20 @@ app.use(`${baseURL}/users`, userRouter);
 app.use(`${baseURL}/chats`, chatRouter);
 app.use(`${baseURL}/messages`, messageRouter);
 app.use(`${baseURL}/notifications`, notificationRouter);
+
+// -----------------DEPLOYMENT----------------------
+const __dirName1 = path.resolve();
+if (process.env.ENVIRONMENT === "develpment") {
+  app.get("/", (req, res) => {
+    res.send("API is running successfully...");
+  });
+} else {
+  app.use(express.static(path.join(__dirName1, "../client/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirName1, "client", "dist", "index.html"));
+  });
+}
 
 app.use(notFound);
 app.use(errorHandler);
